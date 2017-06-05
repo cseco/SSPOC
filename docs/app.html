@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+  <title>app.js</title>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <meta name="viewport" content="width=device-width, target-densitydpi=160dpi, initial-scale=1.0; maximum-scale=1.0; user-scalable=0;">
+  <link rel="stylesheet" media="all" href="docco.css" />
+</head>
+<body>
+  <div id="container">
+    <div id="background"></div>
+    
+      <ul id="jump_to">
+        <li>
+          <a class="large" href="javascript:void(0);">Jump To &hellip;</a>
+          <a class="small" href="javascript:void(0);">+</a>
+          <div id="jump_wrapper">
+          <div id="jump_page_wrapper">
+            <div id="jump_page">
+              
+                
+                <a class="source" href="app.html">
+                  app.js
+                </a>
+              
+                
+                <a class="source" href="first-time-setup.html">
+                  first-time-setup.js
+                </a>
+              
+                
+                <a class="source" href="temp.html">
+                  temp.js
+                </a>
+              
+            </div>
+          </div>
+        </li>
+      </ul>
+    
+    <ul class="sections">
+        
+          <li id="title">
+              <div class="annotation">
+                  <h1>app.js</h1>
+              </div>
+          </li>
+        
+        
+        
+        <li id="section-1">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-1">&#182;</a>
+              </div>
+              
+            </div>
+            
+            <div class="content"><div class='highlight'><pre><span class="hljs-comment">/**
+ * Module dependencies.
+ */</span>
+<span class="hljs-keyword">const</span> express = <span class="hljs-built_in">require</span>(<span class="hljs-string">'express'</span>);
+<span class="hljs-keyword">const</span> compression = <span class="hljs-built_in">require</span>(<span class="hljs-string">'compression'</span>);
+<span class="hljs-keyword">const</span> session = <span class="hljs-built_in">require</span>(<span class="hljs-string">'express-session'</span>);
+<span class="hljs-keyword">const</span> bodyParser = <span class="hljs-built_in">require</span>(<span class="hljs-string">'body-parser'</span>);
+<span class="hljs-keyword">const</span> logger = <span class="hljs-built_in">require</span>(<span class="hljs-string">'morgan'</span>);
+<span class="hljs-keyword">const</span> chalk = <span class="hljs-built_in">require</span>(<span class="hljs-string">'chalk'</span>);
+<span class="hljs-keyword">const</span> errorHandler = <span class="hljs-built_in">require</span>(<span class="hljs-string">'errorhandler'</span>);
+<span class="hljs-keyword">const</span> lusca = <span class="hljs-built_in">require</span>(<span class="hljs-string">'lusca'</span>);
+<span class="hljs-keyword">const</span> dotenv = <span class="hljs-built_in">require</span>(<span class="hljs-string">'dotenv'</span>);
+<span class="hljs-keyword">const</span> MongoStore = <span class="hljs-built_in">require</span>(<span class="hljs-string">'connect-mongo'</span>)(session);
+<span class="hljs-keyword">const</span> flash = <span class="hljs-built_in">require</span>(<span class="hljs-string">'express-flash'</span>);
+<span class="hljs-keyword">const</span> path = <span class="hljs-built_in">require</span>(<span class="hljs-string">'path'</span>);
+<span class="hljs-keyword">const</span> mongoose = <span class="hljs-built_in">require</span>(<span class="hljs-string">'mongoose'</span>);
+<span class="hljs-keyword">const</span> passport = <span class="hljs-built_in">require</span>(<span class="hljs-string">'passport'</span>);
+<span class="hljs-keyword">const</span> expressValidator = <span class="hljs-built_in">require</span>(<span class="hljs-string">'express-validator'</span>);
+<span class="hljs-keyword">const</span> expressStatusMonitor = <span class="hljs-built_in">require</span>(<span class="hljs-string">'express-status-monitor'</span>);
+<span class="hljs-keyword">const</span> sass = <span class="hljs-built_in">require</span>(<span class="hljs-string">'node-sass-middleware'</span>);
+<span class="hljs-keyword">const</span> multer = <span class="hljs-built_in">require</span>(<span class="hljs-string">'multer'</span>);
+
+<span class="hljs-keyword">const</span> upload = multer({ <span class="hljs-attr">dest</span>: path.join(__dirname, <span class="hljs-string">'uploads'</span>) });
+
+<span class="hljs-comment">/**
+ * Load environment variables from .env file, where API keys and passwords are configured.
+ */</span>
+dotenv.load({ <span class="hljs-attr">path</span>: <span class="hljs-string">'.env.example'</span> });
+
+<span class="hljs-comment">/**
+ * Controllers (route handlers).
+ */</span>
+<span class="hljs-keyword">const</span> homeController = <span class="hljs-built_in">require</span>(<span class="hljs-string">'./controllers/home'</span>);
+<span class="hljs-keyword">const</span> userController = <span class="hljs-built_in">require</span>(<span class="hljs-string">'./controllers/user'</span>);
+<span class="hljs-keyword">const</span> adminController = <span class="hljs-built_in">require</span>(<span class="hljs-string">'./controllers/admin'</span>);
+<span class="hljs-keyword">const</span> apiController = <span class="hljs-built_in">require</span>(<span class="hljs-string">'./controllers/api'</span>);
+<span class="hljs-keyword">const</span> contactController = <span class="hljs-built_in">require</span>(<span class="hljs-string">'./controllers/contact'</span>);
+
+<span class="hljs-comment">/**
+ * API keys and Passport configuration.
+ */</span>
+<span class="hljs-keyword">const</span> passportConfig = <span class="hljs-built_in">require</span>(<span class="hljs-string">'./config/passport'</span>);
+
+<span class="hljs-comment">/**
+ * Create Express server.
+ */</span>
+<span class="hljs-keyword">const</span> app = express();
+
+<span class="hljs-comment">/**
+ * Connect to MongoDB.
+ */</span>
+mongoose.Promise = global.Promise;
+mongoose.connect(process.env.MONGODB_URI || process.env.MONGOLAB_URI);
+mongoose.connection.on(<span class="hljs-string">'error'</span>, (err) =&gt; {
+  <span class="hljs-built_in">console</span>.error(err);
+  <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'%s MongoDB connection error. Please make sure MongoDB is running.'</span>, chalk.red(<span class="hljs-string">'✗'</span>));
+  process.exit();
+});
+
+<span class="hljs-comment">/**
+ * Express configuration.
+ */</span>
+app.set(<span class="hljs-string">'port'</span>, process.env.PORT || <span class="hljs-number">3000</span>);
+app.set(<span class="hljs-string">'views'</span>, path.join(__dirname, <span class="hljs-string">'views'</span>));
+app.set(<span class="hljs-string">'view engine'</span>, <span class="hljs-string">'pug'</span>);
+app.use(expressStatusMonitor());
+app.use(compression());
+app.use(sass({
+  <span class="hljs-attr">src</span>: path.join(__dirname, <span class="hljs-string">'public'</span>),
+  <span class="hljs-attr">dest</span>: path.join(__dirname, <span class="hljs-string">'public'</span>)
+}));
+app.use(logger(<span class="hljs-string">'dev'</span>));
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ <span class="hljs-attr">extended</span>: <span class="hljs-literal">true</span> }));
+app.use(expressValidator());
+app.use(session({
+  <span class="hljs-attr">resave</span>: <span class="hljs-literal">true</span>,
+  <span class="hljs-attr">saveUninitialized</span>: <span class="hljs-literal">true</span>,
+  <span class="hljs-attr">secret</span>: process.env.SESSION_SECRET,
+  <span class="hljs-attr">store</span>: <span class="hljs-keyword">new</span> MongoStore({
+    <span class="hljs-attr">url</span>: process.env.MONGODB_URI || process.env.MONGOLAB_URI,
+    <span class="hljs-attr">autoReconnect</span>: <span class="hljs-literal">true</span>,
+    <span class="hljs-attr">clear_interval</span>: <span class="hljs-number">3600</span>
+  })
+}));
+app.use(passport.initialize());
+app.use(passport.session());
+app.use(flash());
+app.use(<span class="hljs-function">(<span class="hljs-params">req, res, next</span>) =&gt;</span> {
+  <span class="hljs-keyword">if</span> (req.path === <span class="hljs-string">'/api/upload'</span>) {
+    next();
+  } <span class="hljs-keyword">else</span> {
+    lusca.csrf()(req, res, next);
+  }
+});
+app.use(lusca.xframe(<span class="hljs-string">'SAMEORIGIN'</span>));
+app.use(lusca.xssProtection(<span class="hljs-literal">true</span>));
+app.use(<span class="hljs-function">(<span class="hljs-params">req, res, next</span>) =&gt;</span> {
+  res.locals.user = req.user;
+  next();
+});
+app.use(<span class="hljs-function">(<span class="hljs-params">req, res, next</span>) =&gt;</span> {</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-2">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-2">&#182;</a>
+              </div>
+              <p>After successful login, redirect back to the intended page</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  <span class="hljs-keyword">if</span> (!req.user &amp;&amp;
+      req.path !== <span class="hljs-string">'/login'</span> &amp;&amp;
+      req.path !== <span class="hljs-string">'/signup'</span> &amp;&amp;
+      !req.path.match(<span class="hljs-regexp">/^\/auth/</span>) &amp;&amp;
+      !req.path.match(<span class="hljs-regexp">/\./</span>)) {
+    req.session.returnTo = req.path;
+  } <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (req.user &amp;&amp;
+      req.path == <span class="hljs-string">'/account'</span>) {
+    req.session.returnTo = req.path;
+  }
+  next();
+});
+app.use(express.static(path.join(__dirname, <span class="hljs-string">'public'</span>), { <span class="hljs-attr">maxAge</span>: <span class="hljs-number">31557600000</span> }));
+
+<span class="hljs-comment">/**
+ * Primary app routes.
+ */</span>
+app.get(<span class="hljs-string">'/'</span>, homeController.index);
+app.get(<span class="hljs-string">'/auth'</span>, userController.getAuth);
+app.get(<span class="hljs-string">'/endpoints'</span>, userController.getEndpoints);
+app.get(<span class="hljs-string">'/auth/login'</span>, userController.getLogin);
+app.get(<span class="hljs-string">'/auth/loginlocal'</span>, userController.getLoginOld);
+app.post(<span class="hljs-string">'/auth/loginlocal'</span>, userController.postLogin);
+app.get(<span class="hljs-string">'/auth/logout'</span>, userController.logout);
+app.get(<span class="hljs-string">'/auth/reset'</span>, userController.getForgot);
+app.post(<span class="hljs-string">'/auth/reset'</span>, userController.postForgot);
+app.get(<span class="hljs-string">'/reset/:token'</span>, userController.getReset);
+app.post(<span class="hljs-string">'/reset/:token'</span>, userController.postReset);
+app.get(<span class="hljs-string">'/auth/signup'</span>, userController.getSignup);
+app.post(<span class="hljs-string">'/auth/signup'</span>, userController.postSignup);
+app.get(<span class="hljs-string">'/contact'</span>, contactController.getContact);
+app.post(<span class="hljs-string">'/contact'</span>, contactController.postContact);
+app.get(<span class="hljs-string">'/account'</span>, passportConfig.isAuthenticated, userController.getAccount);
+app.post(<span class="hljs-string">'/account/profile'</span>, passportConfig.isAuthenticated, userController.postUpdateProfile);
+app.post(<span class="hljs-string">'/account/password'</span>, passportConfig.isAuthenticated, userController.postUpdatePassword);
+app.post(<span class="hljs-string">'/account/delete'</span>, passportConfig.isAuthenticated, userController.postDeleteAccount);
+app.get(<span class="hljs-string">'/account/unlink/:provider'</span>, passportConfig.isAuthenticated, userController.getOauthUnlink);
+
+app.get(<span class="hljs-string">'/admin'</span>, adminController.getAdmin);
+app.get(<span class="hljs-string">'/admin/dashboard'</span>, adminController.getDashboard);
+
+<span class="hljs-comment">/**
+ * API examples routes.
+ */</span>
+app.get(<span class="hljs-string">'/api'</span>, apiController.getApi);
+app.get(<span class="hljs-string">'/api/lastfm'</span>, apiController.getLastfm);
+app.get(<span class="hljs-string">'/api/nyt'</span>, apiController.getNewYorkTimes);
+app.get(<span class="hljs-string">'/api/aviary'</span>, apiController.getAviary);
+app.get(<span class="hljs-string">'/api/steam'</span>, passportConfig.isAuthenticated, passportConfig.isAuthorized, apiController.getSteam);
+app.get(<span class="hljs-string">'/api/stripe'</span>, apiController.getStripe);
+app.post(<span class="hljs-string">'/api/stripe'</span>, apiController.postStripe);
+app.get(<span class="hljs-string">'/api/scraping'</span>, apiController.getScraping);
+app.get(<span class="hljs-string">'/api/twilio'</span>, apiController.getTwilio);
+app.post(<span class="hljs-string">'/api/twilio'</span>, apiController.postTwilio);
+app.get(<span class="hljs-string">'/api/clockwork'</span>, apiController.getClockwork);
+app.post(<span class="hljs-string">'/api/clockwork'</span>, apiController.postClockwork);
+app.get(<span class="hljs-string">'/api/foursquare'</span>, passportConfig.isAuthenticated, passportConfig.isAuthorized, apiController.getFoursquare);
+app.get(<span class="hljs-string">'/api/tumblr'</span>, passportConfig.isAuthenticated, passportConfig.isAuthorized, apiController.getTumblr);
+app.get(<span class="hljs-string">'/api/facebook'</span>, passportConfig.isAuthenticated, passportConfig.isAuthorized, apiController.getFacebook);
+app.get(<span class="hljs-string">'/api/github'</span>, passportConfig.isAuthenticated, passportConfig.isAuthorized, apiController.getGithub);
+app.get(<span class="hljs-string">'/api/twitter'</span>, passportConfig.isAuthenticated, passportConfig.isAuthorized, apiController.getTwitter);
+app.post(<span class="hljs-string">'/api/twitter'</span>, passportConfig.isAuthenticated, passportConfig.isAuthorized, apiController.postTwitter);
+app.get(<span class="hljs-string">'/api/linkedin'</span>, passportConfig.isAuthenticated, passportConfig.isAuthorized, apiController.getLinkedin);
+app.get(<span class="hljs-string">'/api/instagram'</span>, passportConfig.isAuthenticated, passportConfig.isAuthorized, apiController.getInstagram);
+app.get(<span class="hljs-string">'/api/paypal'</span>, apiController.getPayPal);
+app.get(<span class="hljs-string">'/api/paypal/success'</span>, apiController.getPayPalSuccess);
+app.get(<span class="hljs-string">'/api/paypal/cancel'</span>, apiController.getPayPalCancel);
+app.get(<span class="hljs-string">'/api/lob'</span>, apiController.getLob);
+app.get(<span class="hljs-string">'/api/upload'</span>, apiController.getFileUpload);
+app.post(<span class="hljs-string">'/api/upload'</span>, upload.single(<span class="hljs-string">'myFile'</span>), apiController.postFileUpload);
+app.get(<span class="hljs-string">'/api/pinterest'</span>, passportConfig.isAuthenticated, passportConfig.isAuthorized, apiController.getPinterest);
+app.post(<span class="hljs-string">'/api/pinterest'</span>, passportConfig.isAuthenticated, passportConfig.isAuthorized, apiController.postPinterest);
+app.get(<span class="hljs-string">'/api/google-maps'</span>, apiController.getGoogleMaps);
+
+<span class="hljs-comment">/**
+ * OAuth authentication routes. (Sign in)
+ */</span>
+app.get(<span class="hljs-string">'/auth/instagram'</span>, passport.authenticate(<span class="hljs-string">'instagram'</span>));
+app.get(<span class="hljs-string">'/auth/instagram/callback'</span>, passport.authenticate(<span class="hljs-string">'instagram'</span>, { <span class="hljs-attr">failureRedirect</span>: <span class="hljs-string">'/login'</span> }), (req, res) =&gt; {
+  res.redirect(req.session.returnTo || <span class="hljs-string">'/'</span>);
+});
+app.get(<span class="hljs-string">'/auth/facebook'</span>, passport.authenticate(<span class="hljs-string">'facebook'</span>, { <span class="hljs-attr">scope</span>: [<span class="hljs-string">'email'</span>, <span class="hljs-string">'public_profile'</span>] }));
+app.get(<span class="hljs-string">'/auth/facebook/callback'</span>, passport.authenticate(<span class="hljs-string">'facebook'</span>, { <span class="hljs-attr">failureRedirect</span>: <span class="hljs-string">'/login'</span> }), (req, res) =&gt; {
+  res.redirect(req.session.returnTo || <span class="hljs-string">'/'</span>);
+});
+app.get(<span class="hljs-string">'/auth/github'</span>, passport.authenticate(<span class="hljs-string">'github'</span>));
+app.get(<span class="hljs-string">'/auth/github/callback'</span>, passport.authenticate(<span class="hljs-string">'github'</span>, { <span class="hljs-attr">failureRedirect</span>: <span class="hljs-string">'/login'</span> }), (req, res) =&gt; {
+  res.redirect(req.session.returnTo || <span class="hljs-string">'/'</span>);
+});
+app.get(<span class="hljs-string">'/auth/google'</span>, passport.authenticate(<span class="hljs-string">'google'</span>, { <span class="hljs-attr">scope</span>: <span class="hljs-string">'profile email'</span> }));
+app.get(<span class="hljs-string">'/auth/google/callback'</span>, passport.authenticate(<span class="hljs-string">'google'</span>, { <span class="hljs-attr">failureRedirect</span>: <span class="hljs-string">'/login'</span> }), (req, res) =&gt; {
+  res.redirect(req.session.returnTo || <span class="hljs-string">'/'</span>);
+});
+app.get(<span class="hljs-string">'/auth/twitter'</span>, passport.authenticate(<span class="hljs-string">'twitter'</span>));
+app.get(<span class="hljs-string">'/auth/twitter/callback'</span>, passport.authenticate(<span class="hljs-string">'twitter'</span>, { <span class="hljs-attr">failureRedirect</span>: <span class="hljs-string">'/login'</span> }), (req, res) =&gt; {
+  res.redirect(req.session.returnTo || <span class="hljs-string">'/'</span>);
+});
+app.get(<span class="hljs-string">'/auth/linkedin'</span>, passport.authenticate(<span class="hljs-string">'linkedin'</span>, { <span class="hljs-attr">state</span>: <span class="hljs-string">'SOME STATE'</span> }));
+app.get(<span class="hljs-string">'/auth/linkedin/callback'</span>, passport.authenticate(<span class="hljs-string">'linkedin'</span>, { <span class="hljs-attr">failureRedirect</span>: <span class="hljs-string">'/login'</span> }), (req, res) =&gt; {
+  res.redirect(req.session.returnTo || <span class="hljs-string">'/'</span>);
+});
+
+<span class="hljs-comment">/**
+ * OAuth authorization routes. (API examples)
+ */</span>
+app.get(<span class="hljs-string">'/auth/foursquare'</span>, passport.authorize(<span class="hljs-string">'foursquare'</span>));
+app.get(<span class="hljs-string">'/auth/foursquare/callback'</span>, passport.authorize(<span class="hljs-string">'foursquare'</span>, { <span class="hljs-attr">failureRedirect</span>: <span class="hljs-string">'/api'</span> }), (req, res) =&gt; {
+  res.redirect(<span class="hljs-string">'/api/foursquare'</span>);
+});
+app.get(<span class="hljs-string">'/auth/tumblr'</span>, passport.authorize(<span class="hljs-string">'tumblr'</span>));
+app.get(<span class="hljs-string">'/auth/tumblr/callback'</span>, passport.authorize(<span class="hljs-string">'tumblr'</span>, { <span class="hljs-attr">failureRedirect</span>: <span class="hljs-string">'/api'</span> }), (req, res) =&gt; {
+  res.redirect(<span class="hljs-string">'/api/tumblr'</span>);
+});
+app.get(<span class="hljs-string">'/auth/steam'</span>, passport.authorize(<span class="hljs-string">'openid'</span>, { <span class="hljs-attr">state</span>: <span class="hljs-string">'SOME STATE'</span> }));
+app.get(<span class="hljs-string">'/auth/steam/callback'</span>, passport.authorize(<span class="hljs-string">'openid'</span>, { <span class="hljs-attr">failureRedirect</span>: <span class="hljs-string">'/login'</span> }), (req, res) =&gt; {
+  res.redirect(req.session.returnTo || <span class="hljs-string">'/'</span>);
+});
+app.get(<span class="hljs-string">'/auth/pinterest'</span>, passport.authorize(<span class="hljs-string">'pinterest'</span>, { <span class="hljs-attr">scope</span>: <span class="hljs-string">'read_public write_public'</span> }));
+app.get(<span class="hljs-string">'/auth/pinterest/callback'</span>, passport.authorize(<span class="hljs-string">'pinterest'</span>, { <span class="hljs-attr">failureRedirect</span>: <span class="hljs-string">'/login'</span> }), (req, res) =&gt; {
+  res.redirect(<span class="hljs-string">'/api/pinterest'</span>);
+});
+
+
+<span class="hljs-comment">/**
+ * Additions
+ */</span>
+app.get(<span class="hljs-string">'/escape-velocity'</span>, homeController.escapeVelocity);
+app.get(<span class="hljs-string">'/login'</span>, homeController.escapeVelocity);
+
+<span class="hljs-comment">/**
+ * Error Handler.
+ */</span>
+app.use(errorHandler());
+
+<span class="hljs-comment">/**
+ * Start Express server.
+ */</span>
+app.listen(app.get(<span class="hljs-string">'port'</span>), () =&gt; {
+  <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'%s App is running at http://localhost:%d in %s mode'</span>, chalk.green(<span class="hljs-string">'✓'</span>), app.get(<span class="hljs-string">'port'</span>), app.get(<span class="hljs-string">'env'</span>)); 
+  <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'  Press CTRL-C to stop\n'</span>);
+});
+
+<span class="hljs-built_in">module</span>.exports = app;</pre></div></div>
+            
+        </li>
+        
+    </ul>
+  </div>
+</body>
+</html>

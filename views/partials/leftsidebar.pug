@@ -1,0 +1,65 @@
+// Left side column. contains the logo and sidebar
+aside.main-sidebar
+  // sidebar: style can be found in sidebar.less
+  section.sidebar
+    // Sidebar user panel
+    .user-panel
+      .pull-left.image
+        img.img-circle(src='https://www.gravatar.com/avatar/4e14f517d239010c439617922dc13543?d=mm', alt='User Image')
+      |         
+      .pull-left.info
+        p= user.profile.name || user.email || user.id
+        |           
+    // search form
+    form.sidebar-form(action='#', method='get')
+      .input-group
+        input.form-control(type='text', name='q', placeholder='Search...')
+        |               
+        span.input-group-btn
+          button#search-btn.btn.btn-flat(type='submit', name='search')
+            i.fa.fa-search
+    // /.search form
+    // sidebar menu: : style can be found in sidebar.less
+    ul.sidebar-menu
+      |         
+      li.treeview
+        a(href='#')
+          i.fa.fa-dashboard
+          |  
+          span Dashboard
+          |             
+          span.pull-right-container
+            i.fa.fa-angle-left.pull-right
+        |           
+        ul.treeview-menu
+          li
+            a(href=rooturl+"admin/dashboard")
+              i.fa.fa-circle-o
+              |  Admin Dashboard
+          |    
+          li
+            a(href=rooturl+"site/dashboard")
+              i.fa.fa-circle-o
+              |  Site-Admin Dashboard
+          |         
+          li
+            a(href=rooturl)
+              i.fa.fa-circle-o
+              |  Dashboard
+      |  
+      li.treeview
+        a(href='#')
+          i.fa.fa-drivers-license.fa-fw
+          |             
+          span Roles
+          |
+      |
+      li.treeview
+        a(href='#')
+          i.fa.fa-user.fa-fw.text-success
+          |             
+          span Users
+          |
+      |             
+      
+  // /.sidebar

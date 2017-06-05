@@ -1,0 +1,85 @@
+extends ../shared/loggedin/loggedinlayout
+
+block content
+
+  // Main content
+  section.content
+    // Small boxes (Stat box)
+    
+    // Main row
+    .row
+      // Left col
+      // Chat box
+      .box.box-success
+        .box-header
+          i.fa.fa-comments-o
+          |               
+          h3.box-title WELCOME
+          |               
+        |             
+        #chat-box.box-body.chat
+          // chat item
+          .item
+            img.online(src='images/4e14f517d239010c439617922dc13543.png', alt='user image')
+            |                 
+            p.message
+              a.name(href='#_')
+                small.text-muted.pull-right
+                  i.fa.fa-clock-o
+                  |  2:15
+                |                     #{teamname}
+              include workinghomepage
+            |                 
+            
+          // /.item
+          // chat item
+          
+          // chat item
+          
+        // /.chat
+        
+        // /.box (chat box)
+        
+      // /.Left col
+    // /.row (main row)
+  // /.content
+  // /.content-wrapper
+
+    
+  // ./wrapper
+  // jQuery 2.2.3
+  script(src=rooturl+'AdminLTE/plugins/jQuery/jquery-2.2.3.min.js')
+  // jQuery UI 1.11.4
+  script(src='https://code.jquery.com/ui/1.11.4/jquery-ui.min.js')
+  // Resolve conflict in jQuery UI tooltip with Bootstrap tooltip
+  script.
+    $.widget.bridge('uibutton', $.ui.button);
+  // Bootstrap 3.3.6
+  script(src=rooturl+'AdminLTE/bootstrap/js/bootstrap.min.js')
+  // Morris.js charts
+  script(src='https://cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js')
+  script(src=rooturl+'AdminLTE/plugins/morris/morris.min.js')
+  // Sparkline
+  script(src=rooturl+'AdminLTE/plugins/sparkline/jquery.sparkline.min.js')
+  // jvectormap
+  script(src=rooturl+'AdminLTE/plugins/jvectormap/jquery-jvectormap-1.2.2.min.js')
+  script(src=rooturl+'AdminLTE/plugins/jvectormap/jquery-jvectormap-world-mill-en.js')
+  // jQuery Knob Chart
+  script(src=rooturl+'AdminLTE/plugins/knob/jquery.knob.js')
+  // datepicker
+  script(src=rooturl+'AdminLTE/plugins/datepicker/bootstrap-datepicker.js')
+  // Bootstrap WYSIHTML5
+  script(src=rooturl+'AdminLTE/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.all.min.js')
+  // Slimscroll
+  script(src=rooturl+'AdminLTE/plugins/slimScroll/jquery.slimscroll.min.js')
+  // FastClick
+  script(src=rooturl+'AdminLTE/plugins/fastclick/fastclick.js')
+  // AdminLTE App
+  script(src=rooturl+'AdminLTE/dist/js/app.min.js')
+  // AdminLTE dashboard demo (This is only for demo purposes)
+  // AdminLTE for demo purposes
+  script(src=rooturl+'AdminLTE/dist/js/demo.js')
+
+block footer
+  //footer-loggedin
+  include ../shared/loggedin/loggedinfooter

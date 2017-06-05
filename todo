@@ -1,0 +1,188 @@
+Account Management
+	2. activate	accounts
+	3. inactivate	accounts
+	1. change pwd
+	4. Proper handling of names
+		first name
+		middle name
+		last name
+	0. drop accounts
+
+APPS
+	Uninstall........................................................*
+	Install..........................................................*
+		if I am root user,,, install as root user
+
+	Apps
+		Reload applications menu after successful install/uninstall..............*
+
+
+	Users
+		Create from scratch..................*
+		Edit existing........................
+			click user............................
+				start here: apps/csyber/index.js 362
+			list apps........
+			Add addapp
+
+			More on users:
+				activate
+				deactivate
+				drop
+
+
+Ord
+	download icons
+	Appmanagement...
+		This will require changing from config files to db... this is for later.
+	Permissions for adding groups and removing groups...
+
+Ord:
+	1. add groups............................*
+					still not so good, but working....
+	2. remove groups
+		permissions for removing groups....
+			whoami
+				whois the other???????
+	3. Drop accounts
+
+	1. Groups which cannot be removed...
+	2. Page after removing groups...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--------------------------------
+kindly note that
+ Link the database to the map processing - where the uploaded files can be seen on the interface by the checker i.e no need to download
+- Database used should support spatial data- have been adviced to use folders than Qgis database 
+- Automate connection to database - same as the first one i.e database should be linked to interface. what a surveyor uploads should be seen directly on the checkers and DOS interface
+
+- Need to do user classification - apps i.e Surveyor , Director of Survey(DOS), checkers. Registry , Finance ETC
+- Feedback for the licensed surveyors - the status bar to show how far his job is gone and a mail response
+- Full automation not implemented - no need to download the uploaded plan but comes automatically to the checkers interface
+
+- Prepare demo for next presentation - need to demonstrate  
+
+
+- Need to understand the enter process of cadastral data processing at SOK  - my part
+- Reformat the objectives  - my part
+- Don’t generalize the process - you help on the methodology while organizing slides 
+- Find major transitions then model on that basis- my part, which being implemented 
+
+
+Ord
+	Profile
+		Add social
+			async.............................*
+				Add github login..............*
+		Delete account
+			async.............................*
+
+		Loading profile picture...............*
+
+		Change pwd.....................1
+
+	Applications
+		install more
+
+	Users
+		create new
+		Edit existing
+			delete
+			add apps
+			&change roles
+
+	Ord
+		Applications
+			Each application has:
+				Install
+				Uninstall
+			Load more applications.....-> different tab
+		Users
+			Create
+			Activate
+			Deactivate
+			delete
+			Add apps
+			Change apps
+			Remove apps
+
+		Survey.................
+
+		Treasury...............
+
+		Kamoo..................
+
+
+Upande
+	Conrad List
+	Pressure Sensor
+	Nexus Board...
+		New version
+	Bare_board... let them come with SpringNodes...
+
+
+	Ord
+		Applications
+			Install & uninstall pages
+			Install and uninstall 
+
+		Install..........................................2
+			enable for which groups
+				will need to transfer this to db
+		Uninstall........................................1
+			uninstallable for which groups
+				this is defined in config
+		Change pwd
+
+		THen to the surveyor
+
+		Ord
+			1. Uninstall
+			2. Install
+			3. change pwd
+
+		SURVEYOR
+			upload
+			show progress
+			More_________
+
+	Todo
+		1. Sabbath prep
+		2. CSECO
+		3. Upande
+		4. MPESA & co...

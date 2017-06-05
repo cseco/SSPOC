@@ -1,0 +1,31 @@
+.box.box-primary
+	.box-header.ui-sortable-handle(style='cursor: move;')
+		i.fa.fa-gear.fa-fw
+		|               
+		h3.box-title Uninstall application
+		|               
+		.box-tools.pull-right
+			button.btn.bg-teal.btn-sm(type='button', data-widget='collapse')
+				i.fa.fa-minus
+			|
+	.box-body 
+		p
+			strong
+				| Uninstall this application
+			br
+			|!{ html }
+			br
+			|
+			button.btn.btn-danger.uninstallapp.pull-right
+				|  Uninstall
+			button.btn.btn-primary.pull-left.backbtn
+				span.fa.fa-angle-double-left.custom
+				|  Back
+			|
+		|
+        
+
+|
+script.
+	$(".backbtn").click(function(){loadlastpage();});
+	$(".uninstallapp").click(function(){installapp("uninstall");});

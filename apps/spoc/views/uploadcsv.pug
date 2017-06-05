@@ -1,0 +1,34 @@
+
+.modal.fade(role='dialog')
+  .modal-dialog(role='document')
+    .modal-content
+      .modal-header
+        button.close(type='button', data-dismiss='modal', aria-hidden='true') &times;
+        button.closed(type='button', data-dismiss='modal', aria-hidden='true' hidden='true') &times;
+        |                 
+        h4.modal-title Upload csv
+      |             
+      .modal-body
+        .alerts-modal
+        |                     
+        form.js-form(method='POST', action='#', enctype='multipart/form-data')
+          .row
+            .col-xs-12
+              .panel.panel-default
+                .panel-body
+                  span.glyphicon.glyphicon-cloud-upload
+                  |             
+                  h2 File Uploader
+                  |             
+                  h4 coligo.io
+                  |             
+                  .progress
+                    .progress-bar(role='progressbar')
+                  |             
+                  button.btn.btn-lg.upload-btn(type='button') Upload File
+        |   
+        br
+        |   
+
+        script(src='apps/spoc/js/uploadcsv.js')
+          

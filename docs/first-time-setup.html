@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+  <title>first-time-setup.js</title>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <meta name="viewport" content="width=device-width, target-densitydpi=160dpi, initial-scale=1.0; maximum-scale=1.0; user-scalable=0;">
+  <link rel="stylesheet" media="all" href="docco.css" />
+</head>
+<body>
+  <div id="container">
+    <div id="background"></div>
+    
+      <ul id="jump_to">
+        <li>
+          <a class="large" href="javascript:void(0);">Jump To &hellip;</a>
+          <a class="small" href="javascript:void(0);">+</a>
+          <div id="jump_wrapper">
+          <div id="jump_page_wrapper">
+            <div id="jump_page">
+              
+                
+                <a class="source" href="app.html">
+                  app.js
+                </a>
+              
+                
+                <a class="source" href="first-time-setup.html">
+                  first-time-setup.js
+                </a>
+              
+                
+                <a class="source" href="temp.html">
+                  temp.js
+                </a>
+              
+            </div>
+          </div>
+        </li>
+      </ul>
+    
+    <ul class="sections">
+        
+          <li id="title">
+              <div class="annotation">
+                  <h1>first-time-setup.js</h1>
+              </div>
+          </li>
+        
+        
+        
+        <li id="section-1">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-1">&#182;</a>
+              </div>
+              
+            </div>
+            
+            <div class="content"><div class='highlight'><pre><span class="hljs-meta">'use strict'</span>;
+<span class="hljs-keyword">const</span> Async = <span class="hljs-built_in">require</span>(<span class="hljs-string">'async'</span>);
+<span class="hljs-keyword">const</span> Mongodb = <span class="hljs-built_in">require</span>(<span class="hljs-string">'mongodb'</span>);
+<span class="hljs-keyword">const</span> Promptly = <span class="hljs-built_in">require</span>(<span class="hljs-string">'promptly'</span>);
+<span class="hljs-keyword">var</span> mongoose = <span class="hljs-built_in">require</span>(<span class="hljs-string">'mongoose'</span>);
+<span class="hljs-keyword">const</span> bcrypt = <span class="hljs-built_in">require</span>(<span class="hljs-string">'bcrypt-nodejs'</span>);
+<span class="hljs-keyword">const</span> crypto = <span class="hljs-built_in">require</span>(<span class="hljs-string">'crypto'</span>);
+mongoose.Promise = global.Promise;
+
+<span class="hljs-keyword">var</span> Schema = mongoose.Schema,
+    ObjectId = Schema.ObjectId;
+
+<span class="hljs-keyword">const</span> AdminSchema = <span class="hljs-keyword">new</span> Schema({
+  <span class="hljs-attr">_id</span>: { 
+    <span class="hljs-attr">type</span>: ObjectId, 
+    <span class="hljs-attr">unique</span>: <span class="hljs-literal">true</span> 
+    },
+  <span class="hljs-attr">name</span>:{
+    <span class="hljs-attr">first</span>: <span class="hljs-built_in">String</span>, 
+    <span class="hljs-attr">middle</span>:<span class="hljs-built_in">String</span>,  
+    <span class="hljs-attr">last</span>: <span class="hljs-built_in">String</span>, 
+    <span class="hljs-attr">other</span>:<span class="hljs-built_in">String</span>
+    },
+    <span class="hljs-attr">user</span>:{
+        <span class="hljs-attr">id</span>: <span class="hljs-built_in">String</span>, 
+        <span class="hljs-attr">name</span>:<span class="hljs-built_in">String</span>
+    },
+    <span class="hljs-attr">groups</span>:{
+        <span class="hljs-attr">root</span>:<span class="hljs-built_in">String</span>
+    },
+
+  <span class="hljs-attr">timeCreated</span>: <span class="hljs-built_in">String</span>,
+}, { <span class="hljs-attr">timestamps</span>: <span class="hljs-literal">true</span> });
+
+<span class="hljs-keyword">const</span> AccountSchema = <span class="hljs-keyword">new</span> Schema({
+    <span class="hljs-attr">_id</span>: { <span class="hljs-attr">type</span>: ObjectId}
+});
+<span class="hljs-keyword">const</span> AdminGroupSchema = <span class="hljs-keyword">new</span> Schema({
+    <span class="hljs-attr">_id</span>: { <span class="hljs-attr">type</span>: <span class="hljs-built_in">String</span>},
+    <span class="hljs-attr">name</span>: <span class="hljs-built_in">String</span>
+});
+<span class="hljs-keyword">const</span> UserSchema = <span class="hljs-keyword">new</span> Schema({
+    <span class="hljs-attr">_id</span>: ObjectId,
+    <span class="hljs-attr">isActive</span>: <span class="hljs-built_in">Boolean</span>,
+    <span class="hljs-attr">username</span>: <span class="hljs-built_in">String</span>,
+    <span class="hljs-attr">password</span>: <span class="hljs-built_in">String</span>,
+    <span class="hljs-attr">email</span>: <span class="hljs-built_in">String</span>,
+    <span class="hljs-attr">timeCreated</span>: <span class="hljs-built_in">Date</span>,
+    <span class="hljs-attr">roles</span>:{
+        <span class="hljs-attr">admin</span>: {
+          <span class="hljs-attr">id</span>: <span class="hljs-string">"String"</span>, 
+            <span class="hljs-attr">name</span>:<span class="hljs-string">"String"</span>
+        }
+    }
+});
+ 
+
+<span class="hljs-keyword">var</span> AdminModel = mongoose.model(<span class="hljs-string">'admins'</span>, AdminSchema);
+<span class="hljs-keyword">var</span> AccountModel = mongoose.model(<span class="hljs-string">'accounts'</span>, AccountSchema);
+<span class="hljs-keyword">var</span> AdminGroupModel = mongoose.model(<span class="hljs-string">'adminGroups'</span>, AdminGroupSchema);  <span class="hljs-comment">//mongoose will change this to lowercase</span>
+<span class="hljs-keyword">var</span> SessionModel = mongoose.model(<span class="hljs-string">'sessions'</span>, AdminSchema);
+<span class="hljs-keyword">var</span> StatusModel = mongoose.model(<span class="hljs-string">'statuses'</span>, AdminSchema);
+<span class="hljs-keyword">var</span> AuthAttemptModel = mongoose.model(<span class="hljs-string">'authAttempts'</span>, AdminSchema); <span class="hljs-comment">//mongoose will change this to lowercase</span>
+<span class="hljs-keyword">var</span> UserModel = mongoose.model(<span class="hljs-string">'users'</span>, UserSchema);
+
+<span class="hljs-keyword">var</span> Admin = <span class="hljs-keyword">new</span> AdminModel({
+    <span class="hljs-attr">_id</span>: <span class="hljs-string">'111111111111111111111111'</span>,
+    <span class="hljs-attr">name</span>: {
+        <span class="hljs-attr">first</span>: <span class="hljs-string">'Brian'</span>,
+        <span class="hljs-attr">middle</span>: <span class="hljs-string">''</span>,
+        <span class="hljs-attr">last</span>: <span class="hljs-string">'Odhiambo'</span>,
+        <span class="hljs-attr">other</span>: <span class="hljs-string">'Onash'</span>,
+    },
+    <span class="hljs-attr">user</span>:{
+        <span class="hljs-attr">id</span>: <span class="hljs-string">"String"</span>, 
+        <span class="hljs-attr">name</span>:<span class="hljs-string">"String"</span>
+    },
+    <span class="hljs-attr">groups</span>:{
+        <span class="hljs-attr">root</span>:<span class="hljs-string">"String"</span>
+    },
+
+    <span class="hljs-attr">timeCreated</span>: <span class="hljs-keyword">new</span> <span class="hljs-built_in">Date</span>()
+});
+<span class="hljs-keyword">var</span> Account = <span class="hljs-keyword">new</span> AccountModel({<span class="hljs-attr">_id</span>: <span class="hljs-string">'111111111111111111111111'</span>});
+<span class="hljs-keyword">var</span> AdminGroup = <span class="hljs-keyword">new</span> AdminGroupModel({<span class="hljs-attr">_id</span>: <span class="hljs-string">'root'</span>, <span class="hljs-attr">name</span>: <span class="hljs-string">'Root'</span>});
+<span class="hljs-keyword">var</span> User = <span class="hljs-keyword">new</span> UserModel({});
+
+Async.auto({
+    <span class="hljs-attr">mongodbUri</span>: <span class="hljs-function">(<span class="hljs-params">dones</span>) =&gt;</span> { 
+        <span class="hljs-keyword">const</span> options = {
+            <span class="hljs-attr">default</span>: <span class="hljs-string">'mongodb://localhost:27017/csyber'</span>
+        };
+        Promptly.prompt(<span class="hljs-string">`Vipimo MongoDB URI: (<span class="hljs-subst">${options.<span class="hljs-keyword">default</span>}</span>)`</span>, options, dones);
+    },
+    <span class="hljs-attr">testMongo</span>: [<span class="hljs-string">'mongodbUri'</span>, (results, done) =&gt; {
+
+        Mongodb.MongoClient.connect(results.mongodbUri, {}, (err, db) =&gt; {
+
+            <span class="hljs-keyword">if</span> (err) {
+                <span class="hljs-built_in">console</span>.error(<span class="hljs-string">'Failed to connect to Mongodb.'</span>);
+                <span class="hljs-keyword">return</span> done(err);
+            }
+
+            db.close();
+            done(<span class="hljs-literal">null</span>, <span class="hljs-literal">true</span>);
+        });
+    }],
+    <span class="hljs-attr">rootEmail</span>: [<span class="hljs-string">'testMongo'</span>, (results, done) =&gt; {
+        Promptly.prompt(<span class="hljs-string">'Root user email:'</span>, done);
+    }],
+    <span class="hljs-attr">rootPassword</span>: [<span class="hljs-string">'rootEmail'</span>, (results, done) =&gt; {
+        Promptly.password(<span class="hljs-string">'Root user password:'</span>, done);
+    }],
+    <span class="hljs-attr">setupRootUser</span>: [<span class="hljs-string">'rootPassword'</span>, (results, done) =&gt; {
+
+        Async.auto({
+              <span class="hljs-attr">connect</span>: <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">done</span>) </span>{
+
+                mongoose.connect(results.mongodbUri, {}, done);
+            },
+             <span class="hljs-attr">clean</span>: [<span class="hljs-string">'connect'</span>, (dbResults, done) =&gt; {
+                Async.auto({                                                         
+                   <span class="hljs-attr">clean1</span>:<span class="hljs-function">(<span class="hljs-params">dones</span>) =&gt;</span> { AdminModel.remove().exec().then(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">docs, err</span>)</span>{dones(err, docs)});},
+                   <span class="hljs-attr">clean2</span>:<span class="hljs-function">(<span class="hljs-params">dones</span>) =&gt;</span> { AccountModel.remove().exec().then(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">docs, err</span>)</span>{dones(err, docs)});},
+                   <span class="hljs-attr">clean3</span>:<span class="hljs-function">(<span class="hljs-params">dones</span>) =&gt;</span> { AdminGroupModel.remove().exec().then(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">docs, err</span>)</span>{dones(err, docs)});},
+                   <span class="hljs-attr">clean4</span>:<span class="hljs-function">(<span class="hljs-params">dones</span>) =&gt;</span> { SessionModel.remove().exec().then(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">docs, err</span>)</span>{dones(err, docs)});},
+                   <span class="hljs-attr">clean5</span>:<span class="hljs-function">(<span class="hljs-params">dones</span>) =&gt;</span> { StatusModel.remove().exec().then(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">docs, err</span>)</span>{dones(err, docs)});},
+                   <span class="hljs-attr">clean6</span>:<span class="hljs-function">(<span class="hljs-params">dones</span>) =&gt;</span> { AuthAttemptModel.remove().exec().then(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">docs, err</span>)</span>{dones(err, docs)});},
+                   <span class="hljs-attr">clean7</span>:<span class="hljs-function">(<span class="hljs-params">dones</span>) =&gt;</span> { UserModel.remove().exec().then(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">docs, err</span>)</span>{dones(err, docs)});}
+                      
+                }, done);
+
+            }],
+            <span class="hljs-attr">adminGroup</span>: [<span class="hljs-string">'clean'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">dbResults, done</span>) </span>{ 
+                AdminGroup.save(<span class="hljs-function">(<span class="hljs-params">err, docs, docs1, docs2</span>) =&gt;</span> {
+                <span class="hljs-keyword">if</span>(err)done(err);
+                <span class="hljs-keyword">if</span>(docs[<span class="hljs-number">0</span>] == <span class="hljs-literal">undefined</span>)
+                {
+                    <span class="hljs-keyword">var</span> tmp = [];
+                    tmp.push(docs)
+                    docs = tmp;
+                }
+                done(err, docs &amp;&amp; docs[<span class="hljs-number">0</span>]);
+                });     
+            }],
+            <span class="hljs-attr">admin</span>: [<span class="hljs-string">'user'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">dbResults, done</span>) </span>{
+
+                    Admin.save(<span class="hljs-function">(<span class="hljs-params">err, docs, docs1, docs2</span>) =&gt;</span> {
+                <span class="hljs-keyword">if</span>(docs[<span class="hljs-number">0</span>] == <span class="hljs-literal">undefined</span>)
+                {
+                    <span class="hljs-keyword">var</span> tmpobj = {};
+                    tmpobj._id = docs._id;
+                    tmpobj.timeCreated = docs.timeCreated;
+                    tmpobj.name = docs.name;
+                    docs = tmpobj
+                    <span class="hljs-keyword">var</span> tmp = [];
+                    tmp.push(docs)
+                    docs = tmp;
+                }
+                done(err, docs &amp;&amp; docs[<span class="hljs-number">0</span>]);
+                });
+            }],
+            <span class="hljs-attr">user</span>: [<span class="hljs-string">'clean'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">dbResults, done</span>) </span>{
+
+                Async.auto({
+                     <span class="hljs-attr">passwordHash</span>: <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">done</span>)</span>{bcrypt.genSalt(<span class="hljs-number">10</span>, (err, salt) =&gt; {
+                        <span class="hljs-keyword">if</span> (err) { <span class="hljs-keyword">return</span> next(err); }
+                        bcrypt.hash(results.rootPassword, salt, <span class="hljs-literal">null</span>, (err, passResults) =&gt; {
+                             <span class="hljs-keyword">if</span> (err) { <span class="hljs-keyword">return</span> next(err); }
+                            done(<span class="hljs-literal">null</span>, passResults)
+                        })
+                    })},
+                }, (err, passResults) =&gt; {
+
+                    <span class="hljs-keyword">if</span> (err) {
+                        <span class="hljs-keyword">return</span> done(err);
+                    }
+                    <span class="hljs-keyword">const</span> <span class="hljs-built_in">document</span> = <span class="hljs-keyword">new</span> UserModel({
+                        <span class="hljs-attr">_id</span>: mongoose.Types.ObjectId(<span class="hljs-string">'000000000000000000000000'</span>),
+                        <span class="hljs-attr">isActive</span>: <span class="hljs-literal">true</span>,
+                        <span class="hljs-attr">username</span>: <span class="hljs-string">'root'</span>,
+                        <span class="hljs-attr">password</span>: passResults.passwordHash,
+                        <span class="hljs-attr">email</span>: results.rootEmail.toLowerCase(),
+                        <span class="hljs-attr">timeCreated</span>: <span class="hljs-keyword">new</span> <span class="hljs-built_in">Date</span>(),
+                        <span class="hljs-attr">roles</span>:{
+                            <span class="hljs-attr">admin</span>: {
+                              <span class="hljs-attr">id</span>: <span class="hljs-string">"String"</span>, 
+                                <span class="hljs-attr">name</span>:<span class="hljs-string">"String"</span>
+                            }
+                        }
+
+                    });
+                    User._id = <span class="hljs-built_in">document</span>._id;
+                    User.isActive = <span class="hljs-built_in">document</span>.isActive;
+                    User.username = <span class="hljs-built_in">document</span>.username;
+                    User.password = <span class="hljs-built_in">document</span>.password;
+                    User.email = <span class="hljs-built_in">document</span>.email;
+                    User.timeCreated = <span class="hljs-built_in">document</span>.timeCreated;
+                    User = <span class="hljs-built_in">document</span>;
+                    User.save(<span class="hljs-function">(<span class="hljs-params">err, docs, docs1, docs2</span>) =&gt;</span> {
+                        <span class="hljs-keyword">if</span>(docs[<span class="hljs-number">0</span>] == <span class="hljs-literal">undefined</span>)
+                        {
+                            <span class="hljs-keyword">var</span> tmp = [];
+                            tmp.push(docs)
+                            docs = tmp;
+                        }
+                        done(err, docs &amp;&amp; docs[<span class="hljs-number">0</span>]);
+                    });
+                });
+            }],
+            <span class="hljs-attr">adminMembership</span>: [<span class="hljs-string">'admin'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">dbResults, done</span>) </span>{
+                <span class="hljs-keyword">const</span> id = dbResults.admin._id.toString();
+                <span class="hljs-keyword">const</span> update = {
+                        <span class="hljs-attr">groups</span>: {
+                            <span class="hljs-attr">root</span>: <span class="hljs-string">'Root'</span>                    <span class="hljs-comment">//Root is admin group</span>
+                        }
+                };
+
+                AdminModel.findByIdAndUpdate(id, {<span class="hljs-string">"$set"</span>:update},{<span class="hljs-attr">safe</span>: <span class="hljs-literal">true</span>, <span class="hljs-attr">upsert</span>: <span class="hljs-literal">true</span>}, done);
+            }],
+            <span class="hljs-attr">linkUser</span>: [<span class="hljs-string">'admin'</span>, <span class="hljs-string">'user'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">dbResults, done</span>) </span>{
+                <span class="hljs-keyword">var</span> id = dbResults.user._id;
+                <span class="hljs-keyword">const</span> update = {
+                    <span class="hljs-attr">$set</span>: {
+                        <span class="hljs-string">'roles.admin'</span>: {
+                            <span class="hljs-attr">id</span>: dbResults.admin._id,
+                            <span class="hljs-attr">name</span>: <span class="hljs-string">'Root Admin'</span>
+                        }
+                    }
+                };
+               
+               <span class="hljs-keyword">var</span> updateObj = {
+                    <span class="hljs-attr">roles</span>:{
+                        <span class="hljs-attr">admin</span>:{
+                            <span class="hljs-attr">id</span>:dbResults.admin._id,
+                        <span class="hljs-attr">name</span>: <span class="hljs-string">'Root Admin'</span>
+                            }
+                    }
+                };
+               
+               UserModel.findByIdAndUpdate(id, {<span class="hljs-string">"$set"</span>:updateObj},{<span class="hljs-attr">safe</span>: <span class="hljs-literal">true</span>, <span class="hljs-attr">upsert</span>: <span class="hljs-literal">true</span>},done);
+            }],
+            <span class="hljs-attr">linkAdmin</span>: [<span class="hljs-string">'admin'</span>, <span class="hljs-string">'user'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">dbResults, done</span>) </span>{
+                <span class="hljs-keyword">const</span> id = dbResults.admin._id.toString();
+                <span class="hljs-keyword">var</span> updateObj = {
+                    <span class="hljs-attr">user</span>:{
+                        <span class="hljs-attr">id</span>: dbResults.user._id.toString(),
+                        <span class="hljs-attr">name</span>:<span class="hljs-string">"root"</span>
+                    }<span class="hljs-comment">/*,
+                    groups:{
+                    root: "Root"
+                }*/</span>
+                };
+                AdminModel.findByIdAndUpdate(id,{<span class="hljs-attr">$set</span>: updateObj},{<span class="hljs-attr">safe</span>: <span class="hljs-literal">true</span>, <span class="hljs-attr">upsert</span>: <span class="hljs-literal">true</span>},
+                done );
+            }]
+        }, (err, dbResults) =&gt; {
+
+            <span class="hljs-keyword">if</span> (err) {
+                <span class="hljs-built_in">console</span>.error(<span class="hljs-string">'Failed to setup root user.'</span>);
+                <span class="hljs-keyword">return</span> done(err);
+            }
+
+            done(<span class="hljs-literal">null</span>, <span class="hljs-literal">true</span>);
+        });
+    }]
+}, (err, results) =&gt; {
+
+    <span class="hljs-keyword">if</span> (err) {
+        <span class="hljs-built_in">console</span>.error(<span class="hljs-string">'Setup failed.'</span>);
+        <span class="hljs-built_in">console</span>.error(err);
+        <span class="hljs-keyword">return</span> process.exit(<span class="hljs-number">1</span>);
+    }
+
+    <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'Setup complete.'</span>);
+    process.exit(<span class="hljs-number">0</span>);
+});</pre></div></div>
+            
+        </li>
+        
+    </ul>
+  </div>
+</body>
+</html>

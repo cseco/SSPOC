@@ -1,0 +1,40 @@
+.box
+  .box-header
+    h3.box-title Applications
+  // /.box-header
+  .box-body.no-padding
+    table.table.table-condensed
+      tbody
+        tr
+          th #
+          |                   
+          th Application
+          |                   
+          th Action
+        | 
+        each app in installedapps
+          tr
+            td=app.num+"."
+            |                   
+            td 
+              a.applist.applist(href='#'+app.name) #{app.name}
+            |                   
+            td
+              button.applist.btn.btn-danger(href='#'+app.name)
+                |  Uninstall
+            |   
+        each app in uninstalledapp
+          tr
+            td=app.num+"."
+            |                   
+            td 
+              a.applist(href='#'+app.name) #{app.name}
+            |                   
+            td
+              button.applist.btn.btn-primary(href='#'+app.name)
+                |     Install
+            |                   
+        |                 
+  // /.box-body
+script.
+  $(".applist").click(function(){applists($(this));})

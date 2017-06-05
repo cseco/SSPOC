@@ -1,0 +1,174 @@
+
+.modal.fade(role='dialog')
+  .modal-dialog(role='document')
+    .modal-content
+      .modal-header
+        button.close(type='button', data-dismiss='modal', aria-hidden='true') &times;
+        button.closed(type='button', data-dismiss='modal', aria-hidden='true' hidden='true') &times;
+        |                 
+        h4.modal-title Plan Details
+      |             
+      .modal-body
+        .alerts-modal
+        |                     
+        form.js-form(method='POST', action='#', enctype='multipart/form-data')
+          input(type='hidden', name='csrf_name', value='csrf5930dabdd9b34')
+          input(type='hidden', name='csrf_value', value='d590edf5b7137a7ee3230e907f430a69')
+          |     
+          .js-form-alerts
+          |     
+          .row   
+            .col-sm-12
+              .form-group
+                label(for='scale') Scale
+                |                     
+                .input-group
+                  span.input-group-addon
+                    i.fa.fa-language
+                  |                                                     
+                  select#scale.form-control.js-select2(name='scale')
+                    option(value='1:500', selected='') 1:500
+                    |                                                                 
+                    option(value='1:1000') 1:1000
+                    |                                                                 
+                    option(value='1:2500') 1:2500
+                    |                                                                 
+                    option(value='1:5000') 1:5000
+                    |                                                                 
+                    option(value='1:10000') 1:10000
+                    |                                                                 
+                    option(value='1:50000') 1:5000
+            .col-sm-12
+              .form-group
+                label(for='Plan Type') Plan Type
+                |                     
+                .input-group
+                  span.input-group-addon
+                    i.fa.fa-language
+                  |                                                     
+                  select#plantype.form-control.js-select2(name='plantype')
+                    option(value='Subdivision', selected='') Subdivision
+                    |                                                                 
+                    option(value='Re-establishment') Re-establishment
+                    |                                                                 
+                    option(value='New Grant') New Grant
+                    |                                                                 
+                    option(value='Sectional') Sectional
+                    |                                                                 
+                    option(value='Change of user') Change of user
+                    |                                                                 
+                    option(value='Amalgamation') Amalgamation      
+            .col-sm-12
+              .form-group
+                label(for='Survey Method') Survey Method
+                |                     
+                .input-group
+                  span.input-group-addon
+                    i.fa.fa-language
+                  |                                                     
+                  select#surveymethod.form-control.js-select2(name='surveymethod')
+                    option(value='Conventional', selected='') Conventional
+                    |                                                                 
+                    option(value='Advanced') Advanced       
+            .col-sm-12
+              .form-group
+                label Plan Name
+                |                 
+                .input-group
+                  span.input-group-addon
+                    i.fa.fa-tag.fa-fw
+                  |                     
+                  input.form-control.planname(type='text', name='planname', autocomplete='off', value='', placeholder='Plan Name')
+                  |
+            .col-sm-12
+              .form-group
+                label(for='location') Location
+                |                     
+                .input-group
+                  span.input-group-addon
+                    i.fa.fa-language
+                  |                                                     
+                  select#location.form-control.js-select2(name='location')
+                    option Nairobi 
+                    |              
+                    option  Nakuru 
+                    |               
+                    option  Bungoma 
+                    |                
+                    option Kisumu 
+                    |                 
+                    option Mombasa 
+                    |                  
+                    option Kwale 
+                    |                   
+                    option Taita Taveta 
+                    |             
+                    option  Nyeri
+                    |              
+                    option  Muranga 
+                    |               
+                    option  Busia 
+                    |                
+                    option Vihiga 
+                    |                 
+                    option HomaBay 
+                    |                  
+                    option Kisii 
+                    |                   
+                    option Nyamira
+                    |             
+                    option Kakamega 
+                    |              
+                    option  Kiambu 
+                    |               
+                    option  Machakos 
+                    |                
+                    option Tharakanithi 
+                    |                 
+                    option Kitui 
+                    |                  
+                    option Migori 
+                    |                   
+                    option Turkana 
+                    |             
+                    option Baringo 
+                    |              
+                    option  Uasin Gishu 
+                    |               
+                    option  Trans Nzoia 
+                    |                
+                    option  West Pokot
+                    |                 
+                    option Kilifi 
+                    |                  
+                    option Lamu 
+            .col-sm-12
+              .form-group
+                label(for='Coordinate System') Coordinate System
+                |                     
+                .input-group
+                  span.input-group-addon
+                    i.fa.fa-language
+                  |                                                     
+                  select#coordinatesys.form-control.js-select2(name='coordinatesys')
+                    option(value='UTM', selected='') UTM
+                    |                                                                 
+                    option(value='CASSIN') CASSIN 
+
+          
+            .row
+              .col-xs-8.col-sm-4
+                .vert-pad
+                  button.btn.btn-block.btn-lg.btn-success.touploadsubmitbtn(type='button')
+                    | Upload
+              |             
+              .col-xs-4.col-sm-4.pull-right
+                .vert-pad
+                  button.btn.btn-block.btn-lg.btn-link.touploadcancelbtn(type='button') Cancel
+
+        script(src='apps/spoc/js/upload.js')
+          
+        script.
+          $(".touploadsubmitbtn").click(function(){uploadsubmitbtn()})
+         // $(".touploadcancelbtn").click(function(){loadlastpage(); $(".closed").click();})
+          //$(".close").click(function(){loadlastpage(); $(".closed").click();})

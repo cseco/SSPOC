@@ -1,0 +1,66 @@
+
+.modal.fade(role='dialog')
+  .modal-dialog(role='document')
+    .modal-content
+      .modal-header
+        button.close(type='button', data-dismiss='modal', aria-hidden='true') &times;
+        button.closed(type='button', data-dismiss='modal', aria-hidden='true' hidden='true') &times;
+        |                 
+        h4.modal-title Role
+      |             
+      .modal-body
+        .alerts-modal
+        |                     
+        form.js-form(method='POST', action='#')
+          input(type='hidden', name='csrf_name', value='csrf5930dabdd9b34')
+          input(type='hidden', name='csrf_value', value='d590edf5b7137a7ee3230e907f430a69')
+          |     
+          .js-form-alerts
+          |     
+          .row
+            .col-sm-12
+              .form-group
+                label Email
+                |                 
+                .input-group
+                  span.input-group-addon
+                    i.fa.fa-edit.fa-fw
+                  |                     
+                  input.form-control.createusername(type='text', name='name', autocomplete='off', value='', placeholder='Email')
+            |                         
+            .col-sm-12
+              .form-group
+                label Password
+                |                 
+                .input-group
+                  span.input-group-addon
+                    i.fa.fa-tag.fa-fw
+                  |                     
+                  input.form-control.createuserpwd(type='password', name='slug', autocomplete='off', value='', placeholder='Password')
+                  |
+            .col-sm-12
+              .form-group
+                label Confirm Password
+                |                 
+                .input-group
+                  span.input-group-addon
+                    i.fa.fa-tag.fa-fw
+                  |                     
+                  input.form-control.createusercnfpwd(type='password', name='slug', autocomplete='off', value='', placeholder='Password')
+                  |
+            |                         
+          br
+          |     
+          .row
+            .col-xs-8.col-sm-4
+              .vert-pad
+                button.btn.btn-block.btn-lg.btn-success.createusersubmitbtn(type='button')
+                  | Create
+            |             
+            .col-xs-4.col-sm-4.pull-right
+              .vert-pad
+                button.btn.btn-block.btn-lg.btn-link.createusercancelbtn(type='button') Cancel
+        script.
+          $(".createusersubmitbtn").click(function(){createusersubmit()})
+          $(".createusercancelbtn").click(function(){loadlastpage(); $(".closed").click();})
+          $(".close").click(function(){loadlastpage(); $(".closed").click();})

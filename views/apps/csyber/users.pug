@@ -1,0 +1,135 @@
+.row
+  .col-lg-3.col-xs-6
+    // small box
+    .small-box.bg-yellow
+      .inner
+        h3 #{numusers}
+        |               
+        if numusers > 1
+          p  Users
+        else
+          p  User 
+        |  
+      |             
+      .icon
+        i.ion.ion-person-add.tocreateuser
+      |             
+      a.small-box-footer.tocreateuser(href='#')
+        | Create New User 
+        i.fa.fa-arrow-circle-right
+  // ./col
+  .col-lg-3.col-xs-6
+    // small box
+    .small-box.bg-green
+      .inner
+        h3
+          | #{numapps}
+        |               
+        p Applications
+      |             
+      .icon
+        i.ion.ion-laptop
+      |             
+      a.small-box-footer.tomanageapp(href='#')
+        | Manage applications 
+        i.fa.fa-arrow-circle-right
+  // ./col
+.row
+  .col-lg-6
+    .box.box-primary
+      .box-header.ui-sortable-handle(style='cursor: move;')
+        i.fa.fa-user.fa-fw
+        |               
+        h3.box-title Manage Users
+        |               
+        .box-tools.pull-right
+          button.btn.bg-teal.btn-sm(type='button', data-widget='collapse')
+            i.fa.fa-minus
+          |                 
+          button.btn.bg-teal.btn-sm(type='button', data-widget='remove')
+            i.fa.fa-times   
+      .box-body 
+        table.table.table-condensed
+          tbody
+            tr
+              th Email
+              |                   
+              th Name
+              |                   
+              th Gender
+              |                   
+              th
+            | 
+            each singleuser in users
+              tr(id=singleuser._id)
+                if(singleuser.email)
+                  td
+                    a.tomoduser(chref=singleuser._id href="#") #{singleuser.email}
+                  |
+                else
+                  td 
+                    a.tomoduser(chref=singleuser._id href="#")
+                  |
+                |                   
+                if(singleuser.profile.name)
+                  td
+                    a.tomoduser(chref=singleuser._id href="#") #{singleuser.profile.name}
+                  |
+                else
+                  td 
+                    a.tomoduser(chref=singleuser._id href="#") #{singleuser.name.first}
+                  |
+                |  
+                td=singleuser.profile.gender || singleuser.gender || '...'
+                |                   
+                td.image
+                  img.direct-chat-img.tomoduser(src=singleuser.profile.picture || 'images/4e14f517d239010c439617922dc13543.png', alt='User Image' chref=singleuser._id)
+                  //sup(style='font-size: 20px;')
+                |                  
+            |                 
+      // /.box-body
+  .col-lg-6
+    .box.box-primary
+      .box-header.ui-sortable-handle(style='cursor: move;')
+        i.fa.fa-gear.fa-fw
+        |               
+        h3.box-title Manage Applications
+        |               
+        .box-tools.pull-right
+          button.btn.bg-teal.btn-sm(type='button', data-widget='collapse')
+            i.fa.fa-minus
+          |                 
+          button.btn.bg-teal.btn-sm(type='button', data-widget='remove')
+            i.fa.fa-times   
+      .box-body 
+        table.table.table-condensed
+          tbody
+            tr
+              th #
+              |                   
+              th Application
+              |          
+            | 
+            each app in systemapps
+              tr
+                td=app.num+"."
+                |                   
+                td 
+                  a.applistman(href='#'+app.name) #{app.name}
+                |
+            each app in uninstalledapp
+              tr
+                td=app.num+"."
+                |                   
+                td 
+                  a.applistman(href='#'+app.name) #{app.name}
+                |                   
+            |   
+    //.box
+
+script.
+  $(".tocreateuser").click(function(){createuser();})
+  $(".tomoduser").click(function(){moduser($(this).attr("chref"));})
+  $(".tomanageapp").click(function(){manageapp();})
+  $(".applistman").click(function(){manageapp();})
+

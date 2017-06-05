@@ -1,0 +1,44 @@
+.wrapper
+      header.main-header
+        // Logo
+        a.logo(href=applogoref)
+          // mini logo for sidebar mini 50x50 pixels
+          span.logo-mini
+            img(src='http://localhost/assets-raw/core/assets/local/core/images/logo.svg', width='35', alt='')
+          // logo for regular state and mobile devices
+          span.logo-lg
+            img(src='http://localhost/assets-raw/core/assets/local/core/images/logo.svg', width='35', alt='')
+            | #{applogoname}
+        // Header Navbar: style can be found in header.less
+        nav.navbar.navbar-static-top
+          // Sidebar toggle button
+          a.sidebar-toggle(href='#', data-toggle='offcanvas', role='button')
+            span.sr-only Toggle navigation
+          // Main nav buttons
+          .navbar-custom-menu
+            ul.nav.navbar-nav
+              // additional elements (e.g., menus, messages) before the user account drop down
+              li.hidden-xs.hidden-sm
+                a(href='#') YOU ARE SIGNED IN AS THE ROOT USER
+              // User Account: style can be found in dropdown.less
+              li.dropdown.user.user-menu
+                a.dropdown-toggle(href='#', data-toggle='dropdown' aria-expanded="true")
+                  img.user-image(src='https://www.gravatar.com/avatar/4e14f517d239010c439617922dc13543?d=mm', alt='User Image')
+                  |       
+                  span.hidden-xs= user.profile.name || user.email || user.id
+                |         
+                ul.dropdown-menu
+                  // User image
+                  li.user-header
+                    img.img-circle(src='https://www.gravatar.com/avatar/4e14f517d239010c439617922dc13543?d=mm', alt='User Image')
+                    |         
+                    p
+                      | Brian Onang&apos;o
+                      small (briane)
+                  // Menu Footer
+                  li.user-footer
+                    a.btn.btn-default.btn-flat.btn-block(href='http://localhost/admin') Admin panel
+                    |                       
+                    a.btn.btn-default.btn-flat.btn-block(href='http://localhost/account/settings') My Account
+                    |               
+                    a.btn.btn-default.btn-flat.btn-block(href='http://localhost/account/logout') Logout

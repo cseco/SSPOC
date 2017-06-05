@@ -1,0 +1,41 @@
+doctype html
+html
+  head
+    meta(charset='utf-8')
+    |   
+    meta(http-equiv='X-UA-Compatible', content='IE=edge')
+    |   
+    meta(name='viewport', content='width=device-width, initial-scale=1')
+    |   
+    title File Uploader - coligo.io
+    |   
+    link(href='https://fonts.googleapis.com/css?family=Raleway', rel='stylesheet', type='text/css')
+    |   
+    link(rel='stylesheet', href='http://localhost:3000/AdminLTE/bootstrap/css/bootstrap.min.css')
+    |   
+    link(href='css/styles.css', rel='stylesheet')
+  body
+    .container
+      .row
+        .col-xs-12
+          .panel.panel-default
+            .panel-body
+              span.glyphicon.glyphicon-cloud-upload
+              |             
+              h2 File Uploader
+              |             
+              h4 coligo.io
+              |             
+              .progress
+                .progress-bar(role='progressbar')
+              |             
+              button.btn.btn-lg.upload-btn(type='button') Upload File
+    |   
+    input#upload-input(type='file', name='uploads[]', multiple='multiple')
+    br
+    |   
+    script(src='http://localhost:3000/AdminLTE/plugins/jQuery/jquery-2.2.3.min.js')
+    |   
+    script(src='http://localhost:3000/AdminLTE/bootstrap/js/bootstrap.min.js')
+    |   
+    script(src='http://localhost:3000/apps/spoc/js/uploaddwg.js')

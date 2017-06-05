@@ -1,0 +1,119 @@
+// Left side column. contains the logo and sidebar
+aside.main-sidebar
+  // sidebar: style can be found in sidebar.less
+  section.sidebar
+    // Sidebar user panel
+    .user-panel
+      .pull-left.image
+        img.img-circle(src='images/4e14f517d239010c439617922dc13543.png', alt='User Image')
+      |         
+      .pull-left.info
+        p= user.profile.name || user.email || user.id
+        |           
+    // search form
+    form.sidebar-form(action='#', method='get')
+      .input-group
+        input.form-control(type='text', name='q', placeholder='Search...')
+        |               
+        span.input-group-btn
+          button#search-btn.btn.btn-flat(type='submit', name='search')
+            i.fa.fa-search
+    // /.search form
+    // sidebar menu: : style can be found in sidebar.less
+    ul.sidebar-menu
+      |
+      li.treeview
+        a(href='#')
+          i(class= sidemenuitems.apps.class)
+          |  
+          span Applications
+          |             
+          span.pull-right-container
+            i.fa.fa-angle-left.pull-right
+          ul.treeview-menu
+            each element in sidemenuitems.apps.apps    
+              li
+                if(element.url != '#')
+                  a(href=rooturl+element.url)
+                    i.fa.fa-circle-o
+                    |  #{element.name}
+                    |
+                  |
+                else 
+                  a(href='#')
+                    i.fa.fa-circle-o
+                    |  #{element.name}
+                    |
+                  |
+              |
+      |
+      ul.sidebar-menu
+      |
+      li.treeview
+        a(href='#')
+          i(class= sidemenuitems.dashboards.class)
+          |  
+          span Dashboards
+          |             
+          span.pull-right-container
+            i.fa.fa-angle-left.pull-right
+          ul.treeview-menu
+            each element in sidemenuitems.dashboards.dashboards    
+              li
+                if(element.url != '#')
+                  a(href=rooturl+element.url)
+                    i.fa.fa-circle-o
+                    |  #{element.name}
+                    |
+                  |
+                else 
+                  a(href='#')
+                    i.fa.fa-circle-o
+                    |  #{element.name}
+                    |
+                  |
+              |
+      |
+      each element in sidemenuitems.others
+          li.treeview
+            if(element.url != '#')
+              a(href=rooturl+element.url)
+                i(class= element.class)
+                | #{element.name}
+                if(element.children)
+                  span.pull-right-container
+                    i.fa.fa-angle-left.pull-right
+                  ul.treeview-menu
+                    each childelement in element.children
+                      li
+                        if(childelement.url != '#')
+                          a(href=rooturl+element.url)
+                            i.fa.fa-circle-o
+                            |  #{childelement.name}
+                        else 
+                          a(href='#')
+                            i.fa.fa-circle-o
+                            |  #{childelement.name}
+              |
+            else 
+              a(href=rooturl+element.url)
+                i(class= element.class)
+                | #{element.name}
+                if(element.children)
+                  span.pull-right-container
+                    i.fa.fa-angle-left.pull-right
+                  |
+                  ul.treeview-menu
+                   each childelement in element.children
+                      li
+                        if(childelement.url != '#')
+                          a(href=rooturl+element.url)
+                            i.fa.fa-circle-o
+                            |  #{childelement.name}
+                        else 
+                          a(href='#')
+                            i.fa.fa-circle-o
+                            |  #{childelement.name}
+                      | 
+                  |
+          |

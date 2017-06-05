@@ -1,0 +1,108 @@
+
+.modal.fade(role='dialog')
+  .modal-dialog(role='document')
+    .modal-content      
+      .modal-body
+        .alerts-modal
+        |                     
+        box.js-form(method='POST', action='#')
+          .box-header.ui-sortable-handle(style='cursor: move;')
+            .box-tools.pull-right
+              button.close(type='button', data-dismiss='modal', aria-hidden='true') &times;
+              button.closed(type='button', data-dismiss='modal', aria-hidden='true' hidden='true') &times;
+            i.fa.fa-gear.fa-fw
+            |               
+            h3.box-title Applications settings
+            |               
+             
+
+          .box-body
+            input(type='hidden', name='csrf_name', value='csrf5930dabdd9b34')
+            input(type='hidden', name='csrf_value', value='d590edf5b7137a7ee3230e907f430a69')
+            |     
+            .js-form-alerts
+            |     
+            table.table.table-condensed
+              tbody
+                tr
+                  th 
+                    img.direct-chat-img.addu2guserid(src=user.profile.picture || 'images/4e14f517d239010c439617922dc13543.png', alt='User Image' chref=user._id)
+                    p
+                      small=user.name.first+" "+user.name.middle+" "+user.name.last+" "+user.name.other
+                      br
+                      if(user.email)
+                        small=user.email
+                      else
+                        small ...
+
+            table.table.table-condensed
+              tbody
+                tr
+                  th Application
+                  |                   
+                  th Groups
+                  |
+                  th Action
+                  |      
+                | 
+                for appname in appnames.notinstalled            
+                  tr
+                    th
+                     a(href='#') #{appname}
+                    |                   
+                    th 
+                    |
+                    th 
+                    |       
+                  | 
+
+                  for innerelem in allhisapps[appname]
+                  
+                      tr
+                        td
+                        | 
+                        td=innerelem
+                        |
+                        td
+                          button.addgrpbtn.btn.btn-primary(user='#'+innerelem appname=appname groupname=innerelem)
+                            | Add group               
+                      |  
+                for appname in appnames.installed            
+                  tr
+                    th
+                     a(href='#') #{appname}
+                    |                   
+                    th 
+                    |
+                    th 
+                    |       
+                  | 
+
+                  for innerelem in allhisinstalledapps[appname]
+                  
+                      tr
+                        td
+                        | 
+                        td=innerelem
+                        |
+                        td
+                          button.rmgrpbtn.btn.btn-danger(user='#'+innerelem appname=appname groupname=innerelem)
+                            | Remove group              
+                      | 
+              | 
+
+          br
+          |     
+          .row
+            .col-xs-8.col-sm-4
+              .vert-pad
+                button.btn.btn-block.btn-lg.btn-success.closeaddusertoapp(type='button', data-dismiss='modal') Ok
+            |             
+            .col-xs-4.col-sm-4.pull-right
+              .vert-pad
+                button.btn.btn-block.btn-lg.btn-link.closeaddusertoapp(type='button', data-dismiss='modal') Cancel
+        script.
+          $(".closeaddusertoapp").click(function(){ loadlastpage(); $(".closed").click();})
+          $(".close").click(function(){loadlastpage(); $(".closed").click();})
+          $(".addgrpbtn").click(function(){managegroups("add", $(".addu2guserid").attr("chref"), $(this).attr("appname"), $(this).attr("groupname"));})
+          $(".rmgrpbtn").click(function(){managegroups("remove", $(".addu2guserid").attr("chref"), $(this).attr("appname"), $(this).attr("groupname"));})
