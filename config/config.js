@@ -20,7 +20,7 @@ const config = {
     company: 'SSPOC',
     companyurl: '#',
     applogoref: '#',
-    rooturl: 'http://localhost:3000/',
+    rooturl: 'http://83.136.253.225',
     appwebsite: '#',
     appname: 'SSPOC',
     displayappname: 'SSPOC Dashboard',
