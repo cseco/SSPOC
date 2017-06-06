@@ -167,6 +167,8 @@ app.post('/spoc/uploadcsv', spocController.uploadcsv);
 
 app.post('/spoc/uploaddwg', function(req, res){
   console.log("is upload");
+
+  let upfilename;
   // create an incoming form object
   var form = new formidable.IncomingForm();
   // specify that we want to allow the user to upload multiple files in a single request
@@ -174,7 +176,10 @@ app.post('/spoc/uploaddwg', function(req, res){
   // store all uploads in the /uploads directory
   form.uploadDir = path.join(__dirname, '/uploads');
   form.on('file', function(field, file) {
-    fs.rename(file.path, path.join(form.uploadDir, file.name));
+    let d = new Date();
+    let n = d.getTime()
+    upfilename = req.user.id+file.name;
+    fs.rename(file.path, path.join(form.uploadDir, upfilename));
   });
 
   // log any errors that occur
@@ -184,8 +189,9 @@ app.post('/spoc/uploaddwg', function(req, res){
 
   // once all the files have been uploaded, send a response to the client
   form.on('end', function() {
+    spocController.uploadcsv(req,res, upfilename)
      //upload to forge
-    res.end('success');
+    //res.end('success');
   });
 
   // parse the incoming request containing the form data

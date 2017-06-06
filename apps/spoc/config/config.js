@@ -15,6 +15,11 @@ var day = dateObj.getUTCDate();
 var year = dateObj.getUTCFullYear();
 
 const config = {
+    results:{
+        1000:"Plan has been submitted",
+        1001:"Plan has been sent back for review",
+        1002:"Plan has been forwarded",
+    },
 	name:"spoc",
 	url:"#spoc",
 	enabled: {
@@ -123,6 +128,11 @@ const config = {
                     name: "Home",
                     url: "#spoc/dashboards/home",
                     application:"home"
+                },
+                registry:{
+                    name: "Registry",
+                    url: "#spoc",
+                    application:"Registry"
                 }
             },
         }
@@ -138,11 +148,44 @@ const config = {
                 }
             },
         }
+        },
+        "registry":{
+            dashboards: {
+            class: "fa fa-dashboard",
+            dashboards: {
+                registry:{
+                    name: "Registry",
+                    url: "#spoc",
+                    application:"Registry"
+                }
+            },
+        }
+        },
+        "dos":{
+            dashboards: {
+            class: "fa fa-dashboard",
+            dashboards: {
+                dos:{
+                    name: "DOS",
+                    url: "#spoc",
+                    application:"DOS"
+                }
+            },
+        }
+        },
+        "checker":{
+            dashboards: {
+            class: "fa fa-dashboard",
+            dashboards: {
+                checker:{
+                    name: "Checker",
+                    url: "#spoc",
+                    application:"Checker"
+                }
+            },
+        }
         }
     },
-    results:{
-        10:"App built successfully. You can now test it"
-    }
 
 };
 

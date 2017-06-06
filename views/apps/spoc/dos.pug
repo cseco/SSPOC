@@ -1,0 +1,80 @@
+.row
+  .col-lg-3.col-xs-6
+    // small box
+    .small-box.bg-green
+      .inner
+        h3
+          | #{numfiles}
+        |              
+        p Files
+      |             
+      .icon
+        i.ion.ion-laptop
+      |             
+      a.small-box-footer.tomanageapp(href='#')
+        | Upload Files 
+        i.fa.fa-arrow-circle-right
+  // ./col
+.row
+  .col-lg-12
+    .box.box-primary
+      .box-header.ui-sortable-handle(style='cursor: move;')
+        i.fa.fa-user.fa-fw
+        |               
+        h3.box-title DOS
+        |               
+        .box-tools.pull-right
+          button.btn.bg-teal.btn-sm(type='button', data-widget='collapse')
+            i.fa.fa-minus
+          |                 
+          button.btn.bg-teal.btn-sm(type='button', data-widget='remove')
+            i.fa.fa-times  
+      .box-body 
+        table.table.table-condensed
+          tbody
+            tr
+              th #
+              |           
+              th Plan Name
+              |                   
+              th Drawing file
+              |                   
+              th CSV file
+              |  
+              th Status
+              | 
+              th
+              | 
+              th
+              |   
+            each element in myfiles
+              tr
+                td=element.ind
+                |
+                td=element.planname
+                |
+                td=element.file
+                |
+                td=element.filecsv
+                |
+                if element.dos == 2
+                  td.button.btn-danger Rejected
+                else
+                  if element.dos == 1
+                    td.button.btn-success Accepted
+                  else
+                    td.button.btn-primary Waiting
+                td
+                  button.button.btn.btn-block.btn-lg.btn-primary.todossubmitbtn(type='button' chref=element.ind)
+                    | Accept
+                td
+                  button.button.btn.btn-block.btn-lg.btn-danger.todosrejectbtn(type='button' chref=element.ind)
+                    | Reject
+                
+
+    //.box
+
+script.
+  $(".todossubmitbtn").click(function(){dossubmit($(this).attr("chref"));})
+  $(".todosrejectbtn").click(function(){dosreject($(this).attr("chref"));})
+

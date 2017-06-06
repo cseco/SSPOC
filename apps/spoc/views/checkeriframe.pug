@@ -1,0 +1,15 @@
+
+.modal.fade(role='dialog')
+  .modal-dialog(role='document')
+    .modal-content
+      .modal-header
+        button.close(type='button', data-dismiss='modal', aria-hidden='true') &times;
+        button.closed(type='button', data-dismiss='modal', aria-hidden='true' hidden='true') &times;
+        |                 
+        h4.modal-title Checking plan
+      |             
+      .modal-body
+        .alerts-modal
+        |                     
+        p.js-form(method='POST', action='#', enctype='multipart/form-data')
+          iframe(src="http://localhost:3001/"+"#"+uri, width='580', height='500')

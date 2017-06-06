@@ -4,8 +4,8 @@
     .small-box.bg-green
       .inner
         h3
-          | 20
-        |               
+          | #{numfiles}
+        |              
         p Files
       |             
       .icon
@@ -55,8 +55,63 @@
           button.btn.bg-teal.btn-sm(type='button', data-widget='remove')
             i.fa.fa-times   
       .box-body 
-                     
-            |   
+        table.table.table-condensed
+          tbody
+            tr
+              th Plan
+              |                   
+              th Status
+              |                   
+              th Registry
+              |                   
+              th DOS
+              |                   
+              th Checker
+              |      
+            each element in myfiles
+              tr
+                td=element.planname
+                |
+                if element.status == "incomplete"
+                  td.btn-danger=element.status
+                else
+                  td.btn-success=element.status
+                |
+                if element.registry == 1
+                  td.btn-success
+                    i.fa.fa-check
+                else
+                  if element.registry == 2
+                    td.btn-danger
+                      i.fa.fa-close
+                  else
+                    td.btn-primary
+                      i.fa.fa-minus
+                |
+                if element.dos == 1
+                  td.btn-success
+                    i.fa.fa-check
+                else
+                  if element.dos == 2
+                    td.btn-danger
+                      i.fa.fa-close
+                  else
+                    td.btn-primary
+                      i.fa.fa-minus
+                |
+                |
+                if element.checker == 1
+                  td.btn-success
+                    i.fa.fa-check
+                else
+                  if element.checker == 2
+                    td.btn-danger
+                      i.fa.fa-close
+                  else
+                    td.btn-primary
+                      i.fa.fa-minus
+                |
+
     //.box
 
 script.

@@ -159,10 +159,11 @@ class csyber{
 	static __exec(done)
 	{
 
+		let func = done;
 		let self = this;
 		try
 		{
-			self.exec(function(err, done){
+			self.exec(function(err){
 				if(err)throw new Error("...")
 					done()
 			})
@@ -958,8 +959,9 @@ class csyber{
 					if(self._results != undefined){dones()}
 					else
 					{
+						let appconfig = require("../"+self.app+"/config/config.js");
 						if(self._result != undefined){
-				           let tmp = self.csyberconfig.get("/results/"+self._result)
+				           let tmp = appconfig.get("/results/"+self._result)
 				            if(tmp == undefined)tmp = self.config.get("/results/"+self._result)
 				            	if(tmp == undefined)throw new Error("unknown code..."+self._result)
 				            else
@@ -979,8 +981,32 @@ class csyber{
 			    	dones()
 			    	}
 				}catch(err){
-					if(self._result != undefined)dones("unknown code..."+self._result)
-					else dones(err);
+					try
+					{
+						if(self._result != undefined){
+			           let tmp = self.csyberconfig.get("/results/"+self._result)
+			            if(tmp == undefined)tmp = self.config.get("/results/"+self._result)
+			            	if(tmp == undefined)throw new Error("unknown code..."+self._result)
+			            else
+						{
+							
+							if(typeof tmp == "string" || typeof tmp == "String")
+							{
+								//self.returntype = "string";
+								tmp = {"msg": tmp}
+							}
+							else self.returntype = "array";
+						}
+						self._results = tmp;
+						
+		            }
+		            else throw new Error("internal error. Please try again later.")
+
+					}catch(error)
+					{
+						if(self._result != undefined)dones("unknown code..."+self._result)
+						else dones(err);
+					}
 					
 				}
             }

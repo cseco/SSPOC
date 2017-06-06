@@ -58,8 +58,10 @@
             contentType: false,
             success: function(data){
             console.log('upload stage 1 successful!\\n' + data);
-            forgeupload(file.name);
+            //forgeupload(file.name);
             console.log("now upload to ...");
+            alertify.success("Your plan has been downloaded. You can come back here at any time to check the progress")
+            $(".closed").click();
             },
             xhr: function() {
             // create an XMLHttpRequest
