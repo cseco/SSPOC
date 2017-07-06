@@ -14,6 +14,10 @@ const Mongodb = require('mongodb');
 const Config = require('../config/config');
 const appsConfig = require('../apps/installedapps');
 
+const dotenv = require('dotenv');
+
+dotenv.load({ path: '.env.example' });
+
 class User extends MongoModels {
     static generatePasswordHash(password, callback) {
 
@@ -381,7 +385,7 @@ User.indexes = [
     { key: { email: 1, unique: 1 } }
 ];
 
-User.db = 'mongodb://localhost:27017/'+Config.get("/database/name");
+User.db = process.env.MONGODB_URI;//'mongodb://localhost:27017/'+Config.get("/database/name");
 Mongodb.MongoClient.connect(User.db, function(err, db) {
   User.db = db;
   MongoModels.db = db;

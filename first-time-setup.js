@@ -11,6 +11,9 @@ const bluebird = require('bluebird');
 const nodemailer = require('nodemailer');
 const passport = require('passport');
 const csyberUser = require('./models/csyberuser');
+const dotenv = require('dotenv');
+
+dotenv.load({ path: '.env.example' });
 
 
 mongoose.Promise = global.Promise;
@@ -20,7 +23,7 @@ var Schema = mongoose.Schema,
 
 Async.auto({
     testMongo:  (done) => {
-        const db = 'mongodb://localhost:27017/'+Config.get("/database/name");
+        const db = process.env.MONGODB_URI;//mongodb://localhost:27017/'+Config.get("/database/name");
         Mongodb.MongoClient.connect(db, {}, (err, db) => {
 
             if (err) {
